@@ -22,7 +22,7 @@ function Some(value)
     setmetatable(opt, {
         __index = Option,
         __tostring = function()
-            return "Some(" .. value .. ")"
+            return "Some(" .. value:__tostring() .. ")"
         end
     })
 
