@@ -31,8 +31,6 @@ end
 function Player:init()
     self.position = vec2(0, 0)
     self.velocity = vec2(0, 0)
-
-    self.sprite = love.graphics.newImage("player.png")
 end
 
 function Player:update(dt)
@@ -63,16 +61,30 @@ function Player:update(dt)
     -- print(vec2_length(self.velocity))
 end
 
+require "animation"
+require "asset_bundle"
+
+AssetBundle:load()
+
+
 function love.load()
     Player:init()
+    local sheet_r = AssetBundle.files.sprites.deer.walk_e
+    local sheet_l = AssetBundle.files.sprites.deer.walk_w
+
+    animation_r = Animation(sheet_r, 64, 64)
+    animation_l = Animation(sheet_l, 64, 64)
 end
 
 function love.update(dt)
     Player:update(dt)
+    animation_r:update(dt)
+    animation_l:update(dt)
 end
 
 function love.draw()
-    love.graphics.draw(Player.sprite, Player.position().x, Player.position().y)
+    local animation = Player.velocity().x > 0 and animation_r or animation_l
+    love.graphics.draw(animation.spriteSheet, animation:getFrame(), Player.position().x, Player.position().y, 0, 4, 4)
 end
 
 function love.conf(t)
