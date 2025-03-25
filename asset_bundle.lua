@@ -5,7 +5,11 @@ AssetBundle = {
     files = {}
 }
 
-function AssetBundle:load()
+function AssetBundle:load(onFileLoading)
+    local onFileLoading = onFileLoading or function(path)
+        print("[AssetBundle]: loading " .. path)
+    end
+
     local function enumerate(path)
         local tree = {}
 
@@ -14,6 +18,7 @@ function AssetBundle:load()
             local newPath = path .. "/" .. v
             local type = love.filesystem.getInfo(newPath).type
             if type == "file" then
+                onFileLoading(newPath)
                 local data = self.loadFile(newPath)
                 if data:is_some() then
                     tree[self.cutExtension(v)] = data:unwrap()
