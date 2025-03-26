@@ -63,33 +63,34 @@ end
 
 require "lib.asset_bundle"
 require "lib.entity"
+require "lib.vec3"
 
 
 Deer = nil
-local tick = 0
 
 function love.load()
     AssetBundle:load()
     Deer = Entity('deer')
+    Deer.position = Vec3 { 200, 200, 0 }
     Deer.sprite.playing = "walk_e"
 end
 
+local lastDir
 function love.update(dt)
-    Deer:update(dt)
-    tick = tick + 1
+    local mouse = Vec3 { love.mouse.getPosition() }
+    if (mouse) then Deer:lookAt(mouse) end
 
-    if (tick % 100 == 0) then
-        if (Deer.sprite.playing == "walk_e") then
-            Deer.sprite.playing = "walk_w"
-        else
-            Deer.sprite.playing = "walk_e"
-        end
-        tick = 0
+    if (lastDir and lastDir ~= Deer:namedDirection()) then
+        print(Deer:namedDirection())
     end
+
+    lastDir = Deer:namedDirection()
+    Deer:update(dt)
 end
 
 function love.draw()
-    love.graphics.draw(Deer.sprite:getTexture(), Deer.sprite:getQuad(), 200, 200, 0, 4, 4)
+    love.graphics.draw(Deer.sprite:getTexture(), Deer.sprite:getQuad(), Deer.position.x, Deer.position.y, Deer.direction,
+        4, 4, 32, 32)
 end
 
 function love.conf(t)

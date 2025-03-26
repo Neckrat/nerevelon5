@@ -31,5 +31,5 @@ function __AnimatedSprite:getTexture()
     if self.playing then
         return self[self.playing].spriteSheet
     end
-    return nil
+    return AssetBundle.files.sprites.fallback
 end
