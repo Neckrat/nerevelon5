@@ -7,6 +7,8 @@ local __Animation = {
 
 function Animation(image, width, height)
     local animation = {}
+    local width = width or 0
+    local height = height or 0
     animation.spriteSheet = image;
     animation.quads = {};
 
@@ -19,7 +21,7 @@ function Animation(image, width, height)
     return setmetatable(animation, { __index = __Animation })
 end
 
-function __Animation:getFrame()
+function __Animation:getQuad()
     local frametime = 1 / self.fps
     local frame = math.floor(self.currentTime / frametime)
     return self.quads[frame + 1]
@@ -27,4 +29,8 @@ end
 
 function __Animation:update(dt)
     self.currentTime = (self.currentTime + dt) % (#self.quads / self.fps)
+end
+
+function __Animation:reset()
+    self.currentTime = 0
 end

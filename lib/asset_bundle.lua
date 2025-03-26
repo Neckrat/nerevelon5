@@ -1,4 +1,4 @@
-require "option.option"
+require "lib.option"
 
 AssetBundle = {
     root = "/assets",

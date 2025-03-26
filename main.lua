@@ -61,30 +61,35 @@ function Player:update(dt)
     -- print(vec2_length(self.velocity))
 end
 
-require "animation"
-require "asset_bundle"
+require "lib.asset_bundle"
+require "lib.entity"
 
-AssetBundle:load()
 
+Deer = nil
+local tick = 0
 
 function love.load()
-    Player:init()
-    local sheet_r = AssetBundle.files.sprites.deer.walk_e
-    local sheet_l = AssetBundle.files.sprites.deer.walk_w
-
-    animation_r = Animation(sheet_r, 64, 64)
-    animation_l = Animation(sheet_l, 64, 64)
+    AssetBundle:load()
+    Deer = Entity('deer')
+    Deer.sprite.playing = "walk_e"
 end
 
 function love.update(dt)
-    Player:update(dt)
-    animation_r:update(dt)
-    animation_l:update(dt)
+    Deer:update(dt)
+    tick = tick + 1
+
+    if (tick % 100 == 0) then
+        if (Deer.sprite.playing == "walk_e") then
+            Deer.sprite.playing = "walk_w"
+        else
+            Deer.sprite.playing = "walk_e"
+        end
+        tick = 0
+    end
 end
 
 function love.draw()
-    local animation = Player.velocity().x > 0 and animation_r or animation_l
-    love.graphics.draw(animation.spriteSheet, animation:getFrame(), Player.position().x, Player.position().y, 0, 4, 4)
+    love.graphics.draw(Deer.sprite:getTexture(), Deer.sprite:getQuad(), 200, 200, 0, 4, 4)
 end
 
 function love.conf(t)

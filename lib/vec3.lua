@@ -1,4 +1,4 @@
-require "option.option"
+require "lib.option"
 
 __Vec3 = {
     _x = 0,
