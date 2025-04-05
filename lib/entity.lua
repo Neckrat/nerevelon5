@@ -6,9 +6,9 @@ __Entity = {
     sprite = __AnimatedSprite,
     position = Vec3 {},
     velocity = Vec3 {},
-    direction = 0, -- clockwise radians
+    rotation = 0, -- clockwise radians
     friction = 0.98,
-    speed = 1
+    speed = 1     -- m/s
 }
 
 function Entity(id)
@@ -32,20 +32,28 @@ function __Entity:processMovement()
 end
 
 function __Entity:namedDirection()
+    local get_direction_index = function(rotation)
+        local pi = math.pi
+        rotation = rotation % (2 * pi)
+        local shifted = (rotation + pi / 8) % (2 * pi)
+        local index = math.floor(shifted / (pi / 4)) + 1
+        return index
+    end
+
     local lookup = {
         "e",
-        "se",
-        "s",
-        "sw",
-        "w",
-        "nw",
+        "ne",
         "n",
-        "ne"
+        "nw",
+        "w",
+        "sw",
+        "s",
+        "se",
     }
-    local idx = math.floor((4 * self.direction / math.pi) + math.pi / 8) % 8
-    return lookup[idx + 1]
+
+    return lookup[get_direction_index(self.rotation)]
 end
 
 function __Entity:lookAt(vec)
-    self.direction = (vec - self.position):direction()
+    self.rotation = (vec - self.position):direction()
 end

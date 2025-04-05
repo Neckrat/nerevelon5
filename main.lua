@@ -34,7 +34,7 @@ function Player:init()
 end
 
 function Player:update(dt)
-    local speed = 30
+    local speed = 10
     local friction = 0.05
     local acc = vec2(0, 0)
 
@@ -66,31 +66,35 @@ require "lib.entity"
 require "lib.vec3"
 
 
-Deer = nil
+Fox = nil
 
 function love.load()
     AssetBundle:load()
-    Deer = Entity('deer')
-    Deer.position = Vec3 { 200, 200, 0 }
-    Deer.sprite.playing = "walk_e"
+    Player:init();
+
+    Fox = Entity('fox')
+    Fox.position = Vec3 { 200, 200, 0 }
+    Fox.sprite.playing = "walk_ne"
 end
 
 local lastDir
 function love.update(dt)
     local mouse = Vec3 { love.mouse.getPosition() }
-    if (mouse) then Deer:lookAt(mouse) end
+    if (mouse) then Fox:lookAt(mouse) end
 
-    if (lastDir and lastDir ~= Deer:namedDirection()) then
-        print(Deer:namedDirection())
+    if (lastDir and lastDir ~= Fox:namedDirection()) then
+        Fox.sprite.playing = "walk_" .. Fox:namedDirection()
     end
 
-    lastDir = Deer:namedDirection()
-    Deer:update(dt)
+    lastDir = Fox:namedDirection()
+    Player:update(dt)
+    Fox.position = Vec3 { Player.position().x, Player.position().y, 0 }
+    Fox:update(dt)
 end
 
 function love.draw()
-    love.graphics.draw(Deer.sprite:getTexture(), Deer.sprite:getQuad(), Deer.position.x, Deer.position.y, Deer.direction,
-        4, 4, 32, 32)
+    love.graphics.draw(Fox.sprite:getTexture(), Fox.sprite:getQuad(), Fox.position.x, Fox.position.y, Fox.direction,
+        2, 2, 48, 48)
 end
 
 function love.conf(t)

@@ -8,7 +8,7 @@ function AnimatedSprite(id)
     local table = {}
     local bundle = AssetBundle.files.sprites[id]
     for key, value in pairs(bundle) do
-        table[key] = Animation(value, 64, 64)
+        table[key] = Animation(value, 96, 96)
     end
 
     return setmetatable(table, { __index = __AnimatedSprite })

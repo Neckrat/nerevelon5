@@ -54,7 +54,7 @@ function __Vec3:normalize()
 end
 
 function __Vec3:direction()
-    return math.atan2(self.y, self.x)
+    return -math.atan2(self.y, self.x)
 end
 
 function __Vec3:dot(other)
