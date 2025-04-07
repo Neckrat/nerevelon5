@@ -79,16 +79,20 @@ end
 
 local lastDir
 function love.update(dt)
-    local mouse = Vec3 { love.mouse.getPosition() }
-    if (mouse) then Fox:lookAt(mouse) end
-
+    Fox.rotation = Fox.velocity:direction()
     if (lastDir and lastDir ~= Fox:namedDirection()) then
+        local t = Fox.sprite[Fox.sprite.playing].currentTime
         Fox.sprite.playing = "walk_" .. Fox:namedDirection()
+        Fox.sprite[Fox.sprite.playing].currentTime = t
     end
 
     lastDir = Fox:namedDirection()
     Player:update(dt)
-    Fox.position = Vec3 { Player.position().x, Player.position().y, 0 }
+    Fox.velocity = Vec3 { Player.velocity().x, Player.velocity().y, 0 }
+
+    if Fox.velocity:length() < 0.1 then
+        Fox.sprite[Fox.sprite.playing].currentTime = 0
+    end
     Fox:update(dt)
 end
 
