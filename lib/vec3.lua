@@ -1,5 +1,3 @@
-require "lib.option"
-
 __Vec3 = {
     x = 0,
     y = 0,
@@ -45,12 +43,12 @@ end
 
 function __Vec3:normalize()
     local length = self:length()
-    if not length then return None end
-    return Some(Vec3 {
+    if length == 0 then return nil end
+    return Vec3 {
         self.x / length,
         self.y / length,
         self.z / length
-    })
+    }
 end
 
 function __Vec3:direction()

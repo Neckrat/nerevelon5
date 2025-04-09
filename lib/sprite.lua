@@ -24,7 +24,7 @@ function __AnimatedSprite:getQuad()
     if self.playing then
         return self[self.playing]:getQuad()
     end
-    return nil
+    return love.graphics.newQuad(0, 0, 235, 235, AssetBundle.files.sprites.fallback)
 end
 
 function __AnimatedSprite:getTexture()
