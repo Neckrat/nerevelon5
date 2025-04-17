@@ -52,7 +52,7 @@ function __Vec3:normalize()
 end
 
 function __Vec3:direction()
-    return -math.atan2(self.y, self.x)
+    return math.atan2(self.y, self.x)
 end
 
 function __Vec3:dot(other)
@@ -61,4 +61,8 @@ end
 
 function __Vec3:__tostring()
     return "Vec3{" .. self.x .. ", " .. self.y .. ", " .. self.z .. "}"
+end
+
+function __Vec3:angle_to(other)
+    return (other - self):direction()
 end

@@ -43,7 +43,10 @@ function AssetBundle.loadFile(path)
         img:setFilter("nearest", "nearest")
         return
             Some(img)
+    elseif (ext == "glsl") then
+        return Some(love.graphics.newShader(path));
     end
+
     return None
 end
 
