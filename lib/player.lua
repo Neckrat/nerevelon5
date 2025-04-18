@@ -25,10 +25,8 @@ function __Player:update(dt)
         acc = acc + Vec3 { 0, 1 }
     end
 
-    self.entity.velocity = self.entity.velocity
-        + ((acc:normalize() or Vec3 {})
-            * self.entity.speed
-            * dt)
+    self.entity.velocity = ((acc:normalize() or Vec3 {})
+        * self.entity.speed * dt)
 
 
     self.entity:update(dt)

@@ -20,3 +20,8 @@ math.named_direction = function(rotation)
 
     return lookup[get_direction_index(rotation)]
 end
+
+-- Округляет вниз n до самого большого k * step, большего или равного n
+math.step_floor = function(n, step)
+    return math.floor(n / step) * step
+end

@@ -4,12 +4,11 @@ require 'lib.vec3'
 __Entity = {
     id = nil,
     sprite = __AnimatedSprite,
-    position = Vec3 {},
+    position = Vec3 {}, -- world position
     velocity = Vec3 {},
     rotation = 0,       -- clockwise radians
     friction = 0.98,
     speed = 3,          -- m/s
-    rotation_speed = 1, --rad/sec
     state = "walk"
 }
 
@@ -30,8 +29,14 @@ end
 
 function __Entity:processMovement()
     self.position = self.position + self.velocity
-    self.velocity = self.velocity * self.friction
-    self.rotation = self.velocity:direction()
+
+    --self.velocity = self.velocity * self.friction
+    if self.velocity:length() > self.speed then
+        self.velocity = self.velocity:normalize() * self.speed
+    end
+    if (self.velocity:length() ~= 0) then
+        self.rotation = self.velocity:direction()
+    end
 end
 
 function __Entity:lookAt(vec)
