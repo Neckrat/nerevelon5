@@ -98,8 +98,7 @@ function love.draw()
 
     love.graphics.setCanvas()
 
-    local scale = math.min(love.graphics.getDimensions()) / (15 * PIXELS_PER_METER);
-    love.graphics.draw(spriteCanvas, 0, 0, 0, scale, scale)
+    love.graphics.draw(spriteCanvas)
 
     love.graphics.setColor(1, 1, 1, 1)
 end
