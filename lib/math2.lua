@@ -25,3 +25,7 @@ end
 math.step_floor = function(n, step)
     return math.floor(n / step) * step
 end
+
+math.step_ceil = function(n, step)
+    return math.ceil(n / step) * step
+end
